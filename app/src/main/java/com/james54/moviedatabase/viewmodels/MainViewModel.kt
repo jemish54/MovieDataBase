@@ -1,28 +1,69 @@
 package com.james54.moviedatabase.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.james54.moviedatabase.models.Movie
+import com.james54.moviedatabase.models.MovieResponse
+import com.james54.moviedatabase.models.UpcomingMovieResponse
 import com.james54.moviedatabase.repository.MainRepository
+import com.james54.moviedatabase.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    val mainRepository: MainRepository
+    private val mainRepository: MainRepository
 ): ViewModel() {
 
     sealed class MovieStates{
-        class Success(val movieList:List<Movie>):MovieStates()
+        class Success(val movieList:MovieResponse):MovieStates()
+        class SuccessUpcoming(val movieList: UpcomingMovieResponse):MovieStates()
         class Failure(val message:String):MovieStates()
         object Loading:MovieStates()
         object Empty:MovieStates()
     }
 
-    val _movieStateFlow = MutableStateFlow(MovieStates.Empty)
-    val movieStateFlow:StateFlow<MovieStates> = _movieStateFlow
+    private val _popularMovies = MutableStateFlow<MovieStates>(MovieStates.Empty)
+    val popularMovies:StateFlow<MovieStates> = _popularMovies
 
-    
+    private val _topRatedMovies = MutableStateFlow<MovieStates>(MovieStates.Empty)
+    val topRatedMovies:StateFlow<MovieStates> = _topRatedMovies
+
+    private val _upcomingMovies = MutableStateFlow<MovieStates>(MovieStates.Empty)
+    val upcomingMovies:StateFlow<MovieStates> = _upcomingMovies
+
+    fun getPopularMovies() = viewModelScope.launch {
+        _popularMovies.value = MovieStates.Loading
+        when(val result = mainRepository.getPopular()){
+            is Resource.Success->{
+                _popularMovies.value = MovieStates.Success(result.data!!)
+            }
+            is Resource.Error-> _popularMovies.value = MovieStates.Failure(result.message!!)
+        }
+    }
+
+    fun getTopRatedMovies() = viewModelScope.launch {
+        _topRatedMovies.value = MovieStates.Loading
+        when(val result = mainRepository.getTopRated()){
+            is Resource.Success->{
+                _topRatedMovies.value = MovieStates.Success(result.data!!)
+            }
+            is Resource.Error-> _topRatedMovies.value = MovieStates.Failure(result.message!!)
+        }
+    }
+
+    fun getUpcomingMovies() = viewModelScope.launch {
+        _upcomingMovies.value = MovieStates.Loading
+        when(val result = mainRepository.getUpcoming()){
+            is Resource.Success->{
+                _upcomingMovies.value = MovieStates.SuccessUpcoming(result.data!!)
+            }
+            is Resource.Error-> _upcomingMovies.value = MovieStates.Failure(result.message!!)
+        }
+    }
 
 }

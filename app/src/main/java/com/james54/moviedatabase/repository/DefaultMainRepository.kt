@@ -4,12 +4,13 @@ import com.james54.moviedatabase.models.MovieResponse
 import com.james54.moviedatabase.models.UpcomingMovieResponse
 import com.james54.moviedatabase.network.MovieApi
 import com.james54.moviedatabase.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
 import java.lang.Exception
 import javax.inject.Inject
 
 class DefaultMainRepository @Inject constructor(
-    val movieApi: MovieApi
+    private val movieApi: MovieApi
 ) : MainRepository{
 
     override suspend fun getPopular(): Resource<MovieResponse> {

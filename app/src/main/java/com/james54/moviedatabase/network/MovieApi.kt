@@ -5,16 +5,26 @@ import com.james54.moviedatabase.models.UpcomingMovieResponse
 import com.james54.moviedatabase.util.Constants.Companion.API_KEY
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface MovieApi {
 
-    @GET("movie/popular?api_key=${API_KEY}")
-    suspend fun getPopular():Response<MovieResponse>
+    @GET("popular")
+    suspend fun getPopular(
+        @Query("api_key")
+        api_key:String = API_KEY
+    ):Response<MovieResponse>
 
-    @GET("movie/top_rated?api_key=${API_KEY}")
-    suspend fun getTopRated():Response<MovieResponse>
+    @GET("top_rated")
+    suspend fun getTopRated(
+        @Query("api_key")
+        api_key:String = API_KEY
+    ):Response<MovieResponse>
 
-    @GET("movie/upcoming?api_key=${API_KEY}")
-    suspend fun getUpcoming():Response<UpcomingMovieResponse>
+    @GET("upcoming")
+    suspend fun getUpcoming(
+        @Query("api_key")
+        api_key:String = API_KEY
+    ):Response<UpcomingMovieResponse>
 
 }
