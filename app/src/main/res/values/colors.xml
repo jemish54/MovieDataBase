@@ -7,4 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="navBarBack">#432FBF</color>
+    <color name="iconTint">#C8FFFFFF</color>
+    <color name="iconTintActive">#FFFFFF</color>
+    <color name="indicatorColor">#2DFFFFFF</color>
 </resources>
