@@ -11,4 +11,6 @@
     <color name="iconTint">#C8FFFFFF</color>
     <color name="iconTintActive">#FFFFFF</color>
     <color name="indicatorColor">#2DFFFFFF</color>
+    <color name="Yellow">#FEE12B</color>
+    <color name="Blue">#00008B</color>
 </resources>

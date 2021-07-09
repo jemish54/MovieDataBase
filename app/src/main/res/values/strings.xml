@@ -3,4 +3,10 @@
     <string name="popular_movies">Popular</string>
     <string name="top_rated_movies">Top Rated</string>
     <string name="upcoming_movies">Upcoming</string>
+    <string name="movie_name">Movie_name</string>
+    <string name="rating">Rating</string>
+    <string name="_3d">3D</string>
+    <string name="imax">IMAX</string>
+    <string name="director">Director: </string>
+    <string name="starring">Starring:</string>
 </resources>
