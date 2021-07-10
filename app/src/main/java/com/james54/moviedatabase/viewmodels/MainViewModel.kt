@@ -2,7 +2,6 @@ package com.james54.moviedatabase.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.james54.moviedatabase.models.Movie
 import com.james54.moviedatabase.models.MovieResponse
 import com.james54.moviedatabase.models.UpcomingMovieResponse
 import com.james54.moviedatabase.repository.MainRepository
@@ -11,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,7 +34,13 @@ class MainViewModel @Inject constructor(
     private val _upcomingMovies = MutableStateFlow<MovieStates>(MovieStates.Empty)
     val upcomingMovies:StateFlow<MovieStates> = _upcomingMovies
 
-    fun getPopularMovies() = viewModelScope.launch {
+    init {
+        getPopularMovies()
+        getTopRatedMovies()
+        getUpcomingMovies()
+    }
+
+    private fun getPopularMovies() = viewModelScope.launch {
         _popularMovies.value = MovieStates.Loading
         when(val result = mainRepository.getPopular()){
             is Resource.Success->{
@@ -46,7 +50,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getTopRatedMovies() = viewModelScope.launch {
+    private fun getTopRatedMovies() = viewModelScope.launch {
         _topRatedMovies.value = MovieStates.Loading
         when(val result = mainRepository.getTopRated()){
             is Resource.Success->{
@@ -56,7 +60,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getUpcomingMovies() = viewModelScope.launch {
+    private fun getUpcomingMovies() = viewModelScope.launch {
         _upcomingMovies.value = MovieStates.Loading
         when(val result = mainRepository.getUpcoming()){
             is Resource.Success->{

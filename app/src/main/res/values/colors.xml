@@ -11,4 +11,7 @@
     <color name="iconTint">#C8FFFFFF</color>
     <color name="iconTintActive">#FFFFFF</color>
     <color name="indicatorColor">#2DFFFFFF</color>
+    <color name="ratingColor">#FFC107</color>
+    <color name="indicateAdult">#E53935</color>
+    <color name="indicateUA">#1E88E5</color>
 </resources>
